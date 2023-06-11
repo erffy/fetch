@@ -12,6 +12,10 @@
     "require": "./build/index.js",
     "types": "./src/global.d.ts"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erqeweew/fetch.git"
+  },
   "scripts": {
     "build": "babel src --out-dir build",
     "start": "node src/index"
