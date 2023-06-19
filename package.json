@@ -1,6 +1,6 @@
 {
   "name": "@smootie/fetch",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Small, Advanced, Type-Safe and Faster fetch module.",
   "private": false,
   "main": "src/index.js",
