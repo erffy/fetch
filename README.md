@@ -40,11 +40,7 @@ console.log(await fetch("url", options));
 
 - We are supported response typing with [TypeScript](https://typescriptlang.org).
 ```ts
-// in ESM
 import { Request } from "@smootie/fetch";
-
-// in CJS
-const { Request } = require("@smootie/fetch");
 
 const request = new Request<{ json: { "dist-tags": { latest: string }} }>("https://registry.npmjs.com/@smootie/fetch", options);
 await request.request("url", options);
