@@ -1,4 +1,5 @@
-import Fetch, { __fetch } from "./dist/Fetch.js";
+import Request from "./dist/Request.js";
+import { fetch } from "./dist/fetch.js";
 
-export { Fetch };
-export default __fetch;
+export { Request };
+export default fetch;

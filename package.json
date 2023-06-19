@@ -6,7 +6,6 @@
   "main": "src/index.js",
   "type": "module",
   "types": "src/global.d.ts",
-
   "exports": {
     "import": "./src/index.js",
     "require": "./build/index.js",
@@ -24,6 +23,7 @@
   "author": "erqewee",
   "license": "ISC",
   "dependencies": {
+    "@smootie/emitter": "^1.3.0",
     "colorette": "^2.0.20"
   },
   "devDependencies": {

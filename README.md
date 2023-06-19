@@ -13,14 +13,19 @@ pnpm i @smootie/fetch
 // class
 
 // in ESM
-import { Fetch } from "@smootie/fetch";
+import { Request } from "@smootie/fetch";
 
 // in CJS
-const { Fetch } = require("@smootie/fetch");
+const { Request } = require("@smootie/fetch");
 
-const request = new Fetch("adresss", options);
-request.request("PLAIN").then(() => console.log(request.getPlain()));
-
+const request = new Request();
+await request.request("url", options);
+await request.post(..., ...);
+await request.put(..., ...);
+await request.trace(..., ...);
+await request.head(..., ...);
+await request.delete(..., ...);
+await request.patch(..., ...);
 
 // function
 
@@ -30,13 +35,13 @@ import fetch from "@smootie/fetch";
 // in CJS
 const fetch = require("@smootie/fetch");
 
-console.log(await fetch("adress", options));
+console.log(await fetch("url", options));
 ```
 
 - We are supported response typing with [TypeScript](https://typescriptlang.org).
 ```ts
-import { Fetch } from "@smootie/fetch";
-const request = new Fetch<{ json: { "dist-tags": { latest: string }} }>("https://registry.npmjs.com/@smootie/fetch", options);
+import { Request } from "@smootie/fetch";
+const request = new Request<{ json: { "dist-tags": { latest: string }} }>("https://registry.npmjs.com/@smootie/fetch", options);
 
 request.request("JSON").then(() => console.log(request.getJSON()));
 ```

@@ -12,7 +12,7 @@ export default class DefaultError extends Error {
   constructor(message, options) {
     super(yellowBright(message));
     
-    this.name = redBright(`FetchError[${typeof options?.name === "string" ? options.name : "UnknownError"}]`);
+    this.name = redBright(`RequestError[${typeof options?.name === "string" ? options.name : "UnknownError"}]`);
 
     if (options?.stack) this.stack = options.stack;
   };

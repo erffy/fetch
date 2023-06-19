@@ -1,57 +1,91 @@
-import { ResultTypesString } from "@smootie/fetch";
+import { ClientRequest, IncomingHttpHeaders } from "node:http";
+
+import Emitter from "@smootie/emitter"
 
 declare module "@smootie/fetch" {
-  export class Fetch<R extends ResponseTypes = ResponseTypes> {
-    public constructor(targetURL: string, options?: RequestOptions);
+  export class Request extends Emitter<SmootieRequest.Events> {
+    public constructor();
 
-    private #url: string;
-    private #jsonData?: { [key: string]: any };
-    private #blobData?: Blob;
-    private #bufferData?: Buffer;
-    private #plainData?: Response;
-    private #textData?: string;
+    public request(url: string, options?: SmootieRequest.RequestOptions): Promise<any>;
+    public post(url: string, options?: SmootieRequest.RequestOptions): Promise<any>;
+    public put(url: string, options?: SmootieRequest.RequestOptions): Promise<any>;
+    public trace(url: string, options?: SmootieRequest.RequestOptions): Promise<any>;
+    public patch(url: string, options?: SmootieRequest.RequestOptions): Promise<any>;
+    public delete(url: string, options?: SmootieRequest.RequestOptions): Promise<any>;
+    public head(url: string, options?: SmootieRequest.RequestOptions): Promise<any>;
+    public get(url: string, options?: SmootieRequest.RequestOptions): Promise<any>;
+  }
 
-    public readonly options: RequestOptions;
+  export default function fetch<R extends SmootieRequest.ResponseTypes = SmootieRequest.ResponseTypes, RKey extends keyof R = keyof R>(url: string, options?: SmootieRequest.FetchOptions): Promise<R[RKey] | Response>;
+}
 
-    public request(type?: ResultTypesString): Promise<this>;
-    public getJSON(): R["json"];
-    public getBlob(): R["blob"];
-    public getBuffer(): R["buffer"];
-    public getPlain(): Response;
-    public getText(): R["text"];
-    public getHeaders(): Array<{ name: string, content: string }>;
-    public getResponseType(): ResponseType;
-  };
+export declare namespace SmootieRequest {
 
-  export default function fetch<R extends ResponseTypes = ResponseTypes>(url: string, options: FetchOptions): Promise<R | Response>;
+  interface RequestOptions {
+    url: string;
+    method?: keyof RequestMethodsList;
+    headers?: IncomingHttpHeaders;
+    data?: any;
+  }
 
-  export interface RequestOptions extends Omit<RequestInit, 'body'> {
+  interface RequestMethodsList {
+    GET: "GET";
+    PUT: "PUT";
+    POST: "POST";
+    TRACE: "TRACE";
+    HEAD: "HEAD";
+    PATCH: "PATCH";
+    DELETE: "DELETE";
+  }
+
+
+  interface ResponseData {
+    data: any,
+    status: {
+      code: number,
+      message?: string
+    },
+    options: FetchOptions,
+    headers: Headers
+  }
+
+  interface Events {
+    error: (error: Error) => unknown;
+    request: (request: ClientRequest) => unknown;
+    response: (options: ResponseData) => unknown;
+    data: (chunk: any) => unknown;
+  }
+
+  interface FetchOptions extends Omit<RequestInit, 'body'> {
     body?: BodyInit | Record<any, any>;
-  };
+    type?: ResultTypesString;
+  }
 
-  export interface FetchOptions extends __FetchOptions {};
-  
-  export interface ResponseTypes {
+
+  interface ResponseTypes {
     json?: { [key: string]: any };
     blob?: Blob;
     buffer?: Buffer;
     text?: string;
-  };
+  }
 
-  export type ResultTypesString = __ResultTypesString;
-
-  export enum ResultTypes {
+  enum ResultTypes {
     JSON = "JSON",
     BUFFER = "BUFFER",
     BLOB = "BLOB",
     TEXT = "TEXT",
     PLAIN = "PLAIN"
-  };
-};
+  }
 
-interface __FetchOptions extends Omit<RequestInit, 'body'>, Omit<RequestInit, 'type'> {
-  body?: BodyInit | Record<any, any>;
-  type?: ResultTypesString;
-};
+  enum RequestMethods {
+    GET = "GET",
+    PUT = "PUT",
+    POST = "POST",
+    TRACE = "TRACE",
+    HEAD = "HEAD",
+    PATCH = "PATCH",
+    DELETE = "DELETE"
+  }
 
-type __ResultTypesString = "JSON" | "BUFFER" | "BLOB" | "TEXT" | "PLAIN";
+  type ResultTypesString = "JSON" | "BUFFER" | "BLOB" | "TEXT" | "PLAIN";
+}

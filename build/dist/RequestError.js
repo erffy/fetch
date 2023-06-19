@@ -36,7 +36,7 @@ var DefaultError = /*#__PURE__*/function (_Error) {
     var _this;
     _classCallCheck(this, DefaultError);
     _this = _super.call(this, (0, _colorette.yellowBright)(message));
-    _this.name = (0, _colorette.redBright)("FetchError[".concat(typeof (options === null || options === void 0 ? void 0 : options.name) === "string" ? options.name : "UnknownError", "]"));
+    _this.name = (0, _colorette.redBright)("RequestError[".concat(typeof (options === null || options === void 0 ? void 0 : options.name) === "string" ? options.name : "UnknownError", "]"));
     if (options !== null && options !== void 0 && options.stack) _this.stack = options.stack;
     return _this;
   }
