@@ -1,3 +1,5 @@
+# NO LONGER MAINTAINED
+
 # @smootie/fetch
 - Faster fetch module.
 
